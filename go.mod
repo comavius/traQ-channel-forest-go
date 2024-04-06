@@ -1,4 +1,4 @@
-module github.com/comavius/traQ-channel-forest-go
+module github.com/comavius/traq-channel-forest-go
 
 go 1.21.1
 

@@ -1,11 +1,10 @@
-package traqforest_test
+package traqforest
 
 import (
 	"context"
 	"fmt"
 	"os"
 	"testing"
-	traqforest "traq-forest"
 
 	"github.com/joho/godotenv"
 	"github.com/traPtitech/go-traq"
@@ -22,13 +21,14 @@ func TestNewForest(t *testing.T) {
 		Prefix: "Bearer",
 		Key:    os.Getenv("ACCESS_TOKEN"),
 	}
+
 	api_conf := traq.NewConfiguration()
 	api_conf.DefaultHeader["Authorization"] = fmt.Sprintf("%s %s", api_key.Prefix, api_key.Key)
 	api_client := traq.NewAPIClient(api_conf)
 	// create context
 	ctx := context.Background()
 	// create forest
-	forest := traqforest.NewForest(api_client, &ctx)
+	forest := NewForest(api_client, &ctx)
 	// get all channels
 	channels_request := api_client.ChannelApi.GetChannels(ctx)
 	channels, _, err := channels_request.Execute()

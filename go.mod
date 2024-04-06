@@ -1,4 +1,4 @@
-module traq-forest
+module github.com/traPtitech/traQ-channel-forest-go
 
 go 1.21.1
 

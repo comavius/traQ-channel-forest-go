@@ -2,6 +2,7 @@ package traqforest
 
 import (
 	"context"
+	"errors"
 
 	"github.com/traPtitech/go-traq"
 )
@@ -19,10 +20,13 @@ type resolvedChannel struct {
 	Path    string
 }
 
-func NewForest(api_client *traq.APIClient, ctx *context.Context) *Forest {
+func NewForest(api_client *traq.APIClient, ctx *context.Context) (*Forest, error) {
 	// get all channels
 	channels_request := api_client.ChannelApi.GetChannels(*ctx)
-	channels, _, _ := channels_request.Execute()
+	channels, _, err := channels_request.Execute()
+	if err != nil {
+		return nil, errors.New("traqforest.NewForest: failed to get channels")
+	}
 	// create id to channel map
 	id_to_channel := make(map[string]traq.Channel)
 	for _, channel := range channels.Public {
@@ -89,7 +93,7 @@ func NewForest(api_client *traq.APIClient, ctx *context.Context) *Forest {
 		channels:   channels.Public,
 		path_to_id: path_to_id,
 		id_to_path: id_to_path,
-	}
+	}, nil
 }
 
 func (f *Forest) GetChannel(path string) (traq.Channel, bool) {

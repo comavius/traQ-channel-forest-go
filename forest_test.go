@@ -28,7 +28,10 @@ func TestNewForest(t *testing.T) {
 	// create context
 	ctx := context.Background()
 	// create forest
-	forest := NewForest(api_client, &ctx)
+	forest, err := NewForest(api_client, &ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 	// get all channels
 	channels_request := api_client.ChannelApi.GetChannels(ctx)
 	channels, _, err := channels_request.Execute()
